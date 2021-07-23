@@ -1,52 +1,61 @@
-# ica_scratch
+# ICA User Guide --- pothole avoidance
 
-## SCENARIO #1: An Example of how to port WDL workflows on ICA
+## Docker
 
-- used WDL workflows from [stjudecloud](https://github.com/stjudecloud/workflows)
-- Chose workflow bam-to-fastq.wdl that references a few other wdl recipes
-- [Created Docker image](https://git.illumina.com/keng/ica_scratch/blob/master/wdl_test/Dockerfile) with all binaries (i.e. samtools, fq, picard) of interest
-- Installed Cromwell to run WDL workflow
-- Created options JSON file [here](https://git.illumina.com/keng/ica_scratch/blob/master/wdl_test/output_directory.json)
-```bash
-# Key parameter in the JSON is: 
-"use_relative_output_paths": true
-```
-- Wrapper script that initializes this workflow can be found [here](https://git.illumina.com/keng/ica_scratch/blob/master/wdl_test/bam_to_fastq_wdl_wrapper.py)
+### Dockerfile recommendations
+- Find code for tool/pipeline on GitHub ---- there may already be a Dockerfile present in the repository
+- Tool/pipeline may already be on DockerHub ; built by the group/individuals maintaining the tool or by someone in the community
+- Find compiled binary of tool and wget/curl this binary in your Dockerfile or copy the binary locally to be copied into Docker image during build
+- Follow readme instructions and copy those instructions as a RUN command in your Dockerfile
+- use pip or conda to do installation ---- this may not always be recommended as there may be breaks in your build as conda gets updated
 
-## SCENARIO #2: An Example of how to port Nextflow workflows on ICA
+### Integrating Docker containers to ICA
+- having the Docker image available on DockerHub/Quay
+- use ```bash docker save -o ${docker_image_name}.tar ${docker_image_name} ``` and transfer this TAR file to ICA via the CLI/ ICA connector
+  - Once this TAR file is uploaded on ICA, you will need to change the file's format to Docker and add this Docker image to the Docker repository
+- Using an AWS ECR ...
+- private Docker repositories
 
-- used nextflow pipeline [hlatyping](https://github.com/nf-core/hlatyping)
-- [Docker image](https://git.illumina.com/keng/ica_scratch/blob/master/nextflow_test/Dockerfile) you base your nextflow-based tool would need nextflow to run the pipeline and have the binaries of interest installed. Many nextflow pipelines have a conda profile to install all binaries of interest with a single line of code.
-- main thing is to check out each process defined in nextflow scripts ( e.g. usually files with '.nf' extension) and make sure the parameter **publishDir** is defined. This will allow ICA to collect the results of any process of interest. For Example:
-```bash
-process < name > {
-    publishDir "", mode: copy
-   [ directives ]
 
-   input:
-    < process inputs >
+## CWL
 
-   output:
-    < process outputs >
+### crafting/developing your own CWL recipes
+- Use the menu tabs when creating a new tool in ICA
+- Useful guides/tips for building a CWL from scratch
+- Helpful CWL recipes from the community
+- Helpful internal CWL recipes showcasing some best practices
 
-   [script|shell|exec]:
-   < user script to be executed >
+### debugging your CWL
+- add $(runtime.outdir) as an output to help troubleshoot/debug a CWL  as you develop it
+- Do so offline
+- Create dummy JSON/YAML input file to test compatiblity
+- Use cwltool to 'test' your CWL --- echo your command line in a basic base Docker image to test and not run your tool
 
-}
-```
-- You will need to run **nextflow clean -f** to remove cache and work directories of a pipeline run. There are symlinked files which makes the folder/file-syncing of ICA to fail.
-- See a simple wrapper script [here](https://git.illumina.com/keng/ica_scratch/blob/master/nextflow_test/tool_wrapper_nf.py). Nextflow is invoked like so:
-```
-nextflow run /opt/hlatyping/main.nf -profile conda--input ${INPUT_DIR}/${STRING_TO_GLOB_FASTQs} --output_dir ${OUTPUT_PATH} -work-dir ${WORKDIR_PATH}
-```
-Notes: ${WORKDIR_PATH} and ${OUTPUT_PATH} should be different directories to prevent causing ICA to copy intermediate files and cause UI issues. The CWL of the tool is provided [here](https://git.illumina.com/keng/ica_scratch/blob/master/nextflow_test/hlatyping/hlatyping.cwl)
+## ICA pipelines
 
-## SCENARIO #3: What if a customer wants to override a DRAGEN tool/workflow?  Will mainly be a workaround
+### ICA pipeline best practices
+- try to version control your tools/pipelines by updating the version setting in the ICA UI
+- make sure the name of your pipeline is different from any underlying tool within a pipeline
+- clone a working tool/pipeline and edit as you wish
+- ensure the multivalue setting or single value setting of an input/output file node matches each input/output node of a tool
+- Use parameter settings for configurable parameters in your pipeline/tool and unlock tehm
 
-- You can override the command run inside the DRAGEN Docker image to run a user-defined workflow. See wrapper [here](https://git.illumina.com/keng/ica_scratch/blob/master/joint_genotype_mod/joint-genotyping-new.cwl)
+### troubleshooting pipeline runs
+- logs of interest ( how to access these)
+   - ```bash ica files list gds://${workflow_id} | grep task | grep log```
+   - ```bash ica tasks runs get ${task_id}```
+   - ```bash ica workflows runs get ${workflow_id} --include definition | grep definition | awk '{split($2,a,"\\|"); print a[3]}' |  base64 -d - > troubleshoot.zip```
+      - unzip this troubshoot.zip file and you'll get a CWL of your initial pipeline and what gets translated to ICA
+- wrapper script to capture stdout/stderr independent of ICA
 
-## SCENARIO #4: I only use Singularity images. How would you make Docker containers?
-- See this document for a quick [recipe](https://git.illumina.com/keng/ica_scratch/blob/master/converting_singularity_to_docker.txt) to convert Singularity images into Docker images
-- Our main recommendation is to use the Singularity recipe file ( i.e. SIF file for all recipes developed in singularity >= 3.0) and use the table [here](https://sylabs.io/guides/3.5/user-guide/singularity_and_docker.html#sec-deffile-vs-dockerfile) to create a Dockerfile. However if needed the recipe provided in the previous point will help
+### invoking/monitoring pipeline runs programmatically
+ - using the ICA workbench + bluebee legacy API
+ - Dan's scripts
+ - DRAGEN popgen CLI ?
+ - Other internal repos 
 
-## Items to [add](https://git.illumina.com/keng/ica_scratch/blob/master/to_add.md)
+## Real world/interesting End-to-End examples on ICA (non-DRAGEN)
+
+## ICA base best practices
+
+## ICA bench best practices 
