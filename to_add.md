@@ -1,0 +1,11 @@
+# Things to add
+- [ ] use of GitHub actions to automatically build and push Docker image to DockerHub --- it may make it easier to add Docker images to ICA
+- [ ] Bring your own S3 bucket ---- point to current Documentation and findings
+- [ ] use of the ICA API - python requests + user input
+- [ ] programmatic way to submit + monitor jobs --- use Dan Crawford's scripts
+- [ ] common ICA commandline utilities/templates
+- [ ] logs of interest for troubleshooting
+- [ ] pointers to documentation and examples (i.e. GDS and knowing when data is seen by ICA, SNS for automatic email alerts)
+- [ ] remote use of workspace --- jupyter notebook
+- [ ] pain points in transferring data
+- [ ] where to find logs of the ICA connector 
