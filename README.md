@@ -42,8 +42,8 @@
 
 ### troubleshooting pipeline runs
 - logs of interest ( how to access these)
-   - ```bash ica files list gds://${workflow_id} | grep task | grep log```
-   - ```bash ica tasks runs get ${task_id}```
-   - ```bash ica workflows runs get ${workflow_id} --include definition | grep definition | awk '{split($2,a,"\\|"); print a[3]}' |  base64 -d - > troubleshoot.zip```
+   - ```ica files list gds://${workflow_id} | grep task | grep log```
+   - ```ica tasks runs get ${task_id}```
+   - ```ica workflows runs get ${workflow_id} --include definition | grep definition | awk '{split($2,a,"\\|"); print a[3]}' |  base64 -d - > troubleshoot.zip```
       - unzip this troubshoot.zip file and you'll get a CWL of your initial pipeline and what gets translated to ICA
 - wrapper script to capture stdout/stderr independent of ICA
