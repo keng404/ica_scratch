@@ -51,7 +51,7 @@
 ### launching piplelines programmatically via the [CLI](https://github.com/keng404/ica_scratch/blob/master/launching_workflows_using_CLI_v1.md)
 
 ## demo code and CWL recipes for ICA v1
-- BWA-mem CWL [example](https://github.com/keng404/ica_scratch)
-- CWL-wrapped nextflow [example](https://github.com/keng404/ica_scratch)
-- CWL-wrapped WDL [example](https://github.com/keng404/ica_scratch)
+- BWA-mem CWL [example](https://github.com/keng404/bwa_mem_cwl_example)
+- CWL-wrapped nextflow [example](https://github.com/keng404/nextflow_test)
+- CWL-wrapped WDL [example](https://github.com/keng404/wdl_test)
 
