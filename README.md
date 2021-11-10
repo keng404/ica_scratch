@@ -48,4 +48,10 @@
       - unzip this troubshoot.zip file and you'll get a CWL of your initial pipeline and what gets translated to ICA
 - wrapper script to capture stdout/stderr independent of ICA
 
-### launching piplelines programmatically via the CLI[https://github.com/keng404/ica_scratch/blob/master/launching_workflows_using_CLI_v1.md]
+### launching piplelines programmatically via the [CLI](https://github.com/keng404/ica_scratch/blob/master/launching_workflows_using_CLI_v1.md)
+
+## demo code and CWL recipes for ICA v1
+- BWA-mem CWL [example](https://github.com/keng404/ica_scratch)
+- CWL-wrapped nextflow [example](https://github.com/keng404/ica_scratch)
+- CWL-wrapped WDL [example](https://github.com/keng404/ica_scratch)
+
