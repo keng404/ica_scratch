@@ -23,29 +23,3 @@ Alternatively, you could also use ```ica workflows list``` and grab the workflow
 
 3. Pipeline Run name (--name)
 pick any name you'd like 👍 . By default, ICA will generate a random name if you leave this field blank.
-
-# markmap
-
-## Links
-
-- <https://markmap.js.org/>
-- [GitHub](https://github.com/gera2ld/markmap)
-
-## Related
-
-- [coc-markmap](https://github.com/gera2ld/coc-markmap)
-- [gatsby-remark-markmap](https://github.com/gera2ld/gatsby-remark-markmap)
-
-## Features
-
-- links
-- **inline** ~~text~~ *styles*
-- multiline
-  text
-- `inline code`
--
-    ```js
-    console.log('code block');
-    ```
-- Katex - $x = {-b \pm \sqrt{b^2-4ac} \over 2a}$
-
