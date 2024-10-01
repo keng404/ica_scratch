@@ -11,7 +11,7 @@
 
 ### Integrating Docker containers to ICA
 - having the Docker image available on DockerHub/Quay
-- use ```bash docker save -o ${docker_image_name}.tar ${docker_image_name} ``` and transfer this TAR file to ICA via the CLI/ ICA connector
+- use ```docker save -o ${docker_image_name}.tar ${docker_image_name} ``` and transfer this TAR file to ICA via the CLI/ ICA connector
   - Once this TAR file is uploaded on ICA, you will need to change the file's format to Docker and add this Docker image to the Docker repository
 - Using an AWS ECR ...
 - private Docker repositories
